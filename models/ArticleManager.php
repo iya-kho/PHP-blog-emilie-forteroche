@@ -38,6 +38,17 @@ class ArticleManager extends AbstractEntityManager
     }
 
     /**
+     * Met à jour le nombre de vues d'un article.
+     * @param int $id : l'id de l'article.
+     * @return void
+     */ 
+    public function updateNbViews(int $id) : void
+    {
+        $sql = "UPDATE article SET nb_views = nb_views + 1 WHERE id = :id";
+        $this->db->query($sql, ['id' => $id]);
+    }
+
+    /**
      * Ajoute ou modifie un article.
      * On sait si l'article est un nouvel article car son id sera -1.
      * @param Article $article : l'article à ajouter ou modifier.

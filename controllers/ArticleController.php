@@ -31,6 +31,12 @@ class ArticleController
             throw new Exception("L'article demandé n'existe pas.");
         }
 
+        // On met à jour le nombre de vues de l'article si l'utilisateur n'a pas déjà vu la page.
+        if (!isset($_SESSION['articlesViewed']) || !in_array($id, $_SESSION['articlesViewed'])) {
+            $articleManager->updateNbViews($id);
+            $_SESSION['articlesViewed'][] = $id;
+        }
+
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
