@@ -9,7 +9,7 @@ class AdminController {
      * Affiche la page d'administration.
      * @return void
      */
-    public function showAdmin() : void
+    public function showEdition() : void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
@@ -20,7 +20,23 @@ class AdminController {
 
         // On affiche la page d'administration.
         $view = new View("Administration");
-        $view->render("admin", [
+        $view->render("editionPage", [
+            'articles' => $articles
+        ]);
+    }
+
+    public function showMonitoring(): void
+    {
+        // On vérifie que l'utilisateur est connecté.
+        $this->checkIfUserIsConnected();
+
+        // On récupère les articles.
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->getAllArticles();
+
+        // On affiche la page d'administration.
+        $view = new View("Monitoring");
+        $view->render("monitoringPage", [
             'articles' => $articles
         ]);
     }
@@ -80,7 +96,7 @@ class AdminController {
         $_SESSION['idUser'] = $user->getId();
 
         // On redirige vers la page d'administration.
-        Utils::redirect("admin");
+        Utils::redirect("editionPage");
     }
 
     /**

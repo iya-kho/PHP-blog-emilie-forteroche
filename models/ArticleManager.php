@@ -49,6 +49,18 @@ class ArticleManager extends AbstractEntityManager
     }
 
     /**
+     * Récupère le nombre de commentaires d'un article
+     * @param int $id : l'id de l'article.
+     * @return int : le nombre de commentaires.
+     */
+    public function getNbComments(int $id) : int    
+    {
+        $sql = "SELECT COUNT(*) FROM comment WHERE id_article = :id";
+        $result = $this->db->query($sql, ['id' => $id]);
+        return $result->fetchColumn();
+    }
+
+    /**
      * Ajoute ou modifie un article.
      * On sait si l'article est un nouvel article car son id sera -1.
      * @param Article $article : l'article à ajouter ou modifier.

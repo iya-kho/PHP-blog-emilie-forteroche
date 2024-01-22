@@ -11,7 +11,8 @@
     private string $content = "";
     private ?DateTime $dateCreation = null;
     private ?DateTime $dateUpdate = null;
-    private int $nbViews = 0;  
+    private int $nbViews = 0;
+    private int $nbComments = 0;  
 
     /**
      * Setter pour l'id de l'utilisateur. 
@@ -146,4 +147,29 @@
     {
         return $this->nbViews;
     }
+
+    /**
+     * Setter pour le nombre de commentaires.
+     * @param int $nbComments
+     */ 
+    public function setNbComments(int $nbComments) : void
+    {
+        $this->nbComments = $nbComments;
+    }
+
+    /**
+     * Getter pour le nombre de commentaires.
+     * @return int
+     */
+    public function getNbComments() : int
+    {
+        $this->nbComments = $this->getManager()->getNbComments($this->id);
+        return $this->nbComments;
+    }
+
+    private function getManager() : ArticleManager
+    {
+        return new ArticleManager();
+    }
+
  }

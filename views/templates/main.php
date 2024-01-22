@@ -25,6 +25,8 @@
             <?php 
                 // Si on est connecté, on affiche le bouton de déconnexion, sinon, on affiche le bouton de connexion : 
                 if (isset($_SESSION['user'])) {
+                    echo '<a href="index.php?action=editionPage">Edition des articles</a>';
+                    echo '<a href="index.php?action=monitoringPage">Monitoring</a>';
                     echo '<a href="index.php?action=disconnectUser">Déconnexion</a>';
                 }
                 ?>
@@ -37,7 +39,7 @@
     </main>
     
     <footer>
-        <p>Copyright © Emilie Forteroche 2023 - Openclassrooms - <a href="index.php?action=admin">Admin</a>
+        <p>Copyright © Emilie Forteroche 2023 - Openclassrooms - <a href="index.php?action=editionPage">Admin</a>
     </footer>
 
 </body>
