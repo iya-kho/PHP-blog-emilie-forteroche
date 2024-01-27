@@ -21,7 +21,8 @@ class AdminController {
         // On affiche la page d'administration.
         $view = new View("Administration");
         $view->render("editionPage", [
-            'articles' => $articles
+            'articles' => $articles,
+            'title' => 'Edition des articles'
         ]);
     }
 
@@ -30,14 +31,33 @@ class AdminController {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
 
-        // On récupère les articles.
+        //On défini les colonnes du tableau et leur titres
+        $columns = ['title', 'nb_views', 'nb_comments', 'date_creation'];
+        $columnTitles = str_replace($columns, ['Titre', 'Vues', 'Commentaires', 'Date de création'], $columns);
+
+        //Définir l'ordre de tri pour la requête SQL, descendante par défaut
+        $sortOrderQuery = isset($_GET['order']) && strtolower($_GET['order']) == 'asc' ? 'ASC' : 'DESC';
+
+        //Définir la colonne de tri pour la requête SQL (date de création par défaut)
+        $sortColumn = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : 'date_creation';
+
+        //Changer l'ordre de tri par click
+        $sortOrderUrl = $sortOrderQuery == 'ASC' ? 'desc' : 'asc';
+
+        //Récupérer les articles triés
         $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $articlesSorted = $articleManager->getSortedArticles($sortColumn, $sortOrderQuery);
 
         // On affiche la page d'administration.
         $view = new View("Monitoring");
         $view->render("monitoringPage", [
-            'articles' => $articles
+            'title' => 'Monitoring',
+            'columns' => $columns,
+            'columnTitles' => $columnTitles,
+            'sortColumn' => $sortColumn,
+            'sortOrderQuery' => $sortOrderQuery,
+            'sortOrderUrl' => $sortOrderUrl,
+            'articlesSorted' => $articlesSorted,
         ]);
     }
 

@@ -5,8 +5,6 @@
      */
 ?>
 
-<?php $title = 'Edition des articles'; ?>
-
 <?php 
 ob_start(); ?>
 <?php foreach ($articles as $article) { ?>
@@ -18,7 +16,7 @@ ob_start(); ?>
     </div>
 <?php } ?>
 
-<?php $lines = ob_get_clean(); ?>
+<?php $tableContent = ob_get_clean(); ?>
 
 <?php require_once('adminTableLayout.php'); ?>
 

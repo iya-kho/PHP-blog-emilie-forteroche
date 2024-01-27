@@ -163,13 +163,7 @@
      */
     public function getNbComments() : int
     {
-        $this->nbComments = $this->getManager()->getNbComments($this->id);
         return $this->nbComments;
-    }
-
-    private function getManager() : ArticleManager
-    {
-        return new ArticleManager();
     }
 
  }

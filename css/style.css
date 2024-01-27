@@ -336,6 +336,12 @@ a.info {
     font-weight: bold;
 }
 
+.articleLine .colTitle a {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .articleLine .monitoringInfo {
     width: 200px;
 }

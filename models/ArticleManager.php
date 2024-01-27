@@ -38,6 +38,24 @@ class ArticleManager extends AbstractEntityManager
     }
 
     /**
+     *  Récupère tous les article triés par un attribut
+     * @param string $column : l'attribut par lequel on trie, la date de création par défaut.
+     * @param string $order : l'ordre de tri, DESC par défaut.  
+     * @return array : un tableau d'objets Article.
+     */
+    public function getSortedArticles($column, $order) : array
+    {
+        $sql = "SELECT * FROM article ORDER BY $column $order";
+        $result = $this->db->query($sql);
+
+        $articles = [];
+        while ($article = $result->fetch()) {
+            $articles[] = new Article($article);
+        }
+        return $articles;
+    }
+
+    /**
      * Met à jour le nombre de vues d'un article.
      * @param int $id : l'id de l'article.
      * @return void
@@ -49,15 +67,14 @@ class ArticleManager extends AbstractEntityManager
     }
 
     /**
-     * Récupère le nombre de commentaires d'un article
+     * Ajoute 1 au nombre de commentaires d'un article.
      * @param int $id : l'id de l'article.
-     * @return int : le nombre de commentaires.
+     * @return void
      */
-    public function getNbComments(int $id) : int    
+    public function updateNbComments(int $id) : void
     {
-        $sql = "SELECT COUNT(*) FROM comment WHERE id_article = :id";
-        $result = $this->db->query($sql, ['id' => $id]);
-        return $result->fetchColumn();
+        $sql = "UPDATE article SET nb_comments = nb_comments + 1 WHERE id = :id";
+        $this->db->query($sql, ['id' => $id]);
     }
 
     /**
