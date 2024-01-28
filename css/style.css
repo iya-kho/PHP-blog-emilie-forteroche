@@ -321,6 +321,10 @@ a.info {
     display: flex; 
 }
 
+.articleLine.bgSecondary {
+    background-color: var(--commentColor);
+}
+
 .articleLine div {
     display: flex;
     align-items: center;

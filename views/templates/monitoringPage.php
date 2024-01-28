@@ -8,7 +8,7 @@
 
 <?php 
 ob_start();?>
-<div class="articleLine">
+<div class="articleLine bgSecondary">
     <?php for ($i = 0; $i < count($columns); $i++) {    
         //On affiche une flèche en haut ou en bas si la colonne est celle qui est triée
         //ou deux flèches par défaut     
@@ -25,8 +25,8 @@ ob_start();?>
         </div>
     <?php } ?>
 </div>
-<?php foreach ($articlesSorted as $article) { ?>
-    <div class="articleLine">
+<?php foreach ($articlesSorted as $index => $article) { ?>
+    <div class="articleLine <?= $index % 2 == 1 ? 'bgSecondary' : '' ?>">
         <div class="title monitoringInfo"><?= $article->getTitle() ?></div>
         <div class="monitoringInfo"><?= $article->getNbViews() ?></div>
         <div class="monitoringInfo"><?= $article->getNbComments() ?></div> 
