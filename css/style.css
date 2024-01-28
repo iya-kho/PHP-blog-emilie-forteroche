@@ -283,6 +283,10 @@ a.info {
     margin: 5px 0 5px 0;
 }
 
+.detailComment .commentButton {
+    margin-top: 20px;
+}
+
 /* Page d'erreur */
 
 .error {

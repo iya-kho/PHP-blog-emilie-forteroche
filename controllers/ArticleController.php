@@ -40,8 +40,15 @@ class ArticleController
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
+        //On vérifie si l'utilisateur est connecté pour afficher le bouton de suppression de commentaire
+        $isConnected = $this->checkIfUserIsConnected();
+
         $view = new View($article->getTitle());
-        $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);
+        $view->render("detailArticle", [
+            'article' => $article, 
+            'comments' => $comments,
+            'isConnected' => $isConnected
+        ]);
     }
 
     /**
@@ -61,5 +68,17 @@ class ArticleController
     public function showApropos() {
         $view = new View("A propos");
         $view->render("apropos");
+    }
+
+    /**
+     * Vérifie si l'utilisateur est connecté.
+     */
+    public function checkIfUserIsConnected() : bool
+    {
+        if (!isset($_SESSION['user'])) {
+            return false;
+        }
+
+        return true;
     }
 }

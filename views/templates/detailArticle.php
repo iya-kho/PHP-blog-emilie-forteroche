@@ -20,23 +20,25 @@
 
 <div class="comments">
     <h2 class="commentsTitle">Vos Commentaires</h2>
-    <?php 
-        if (empty($comments)) {
-            echo '<p class="info">Aucun commentaire pour cet article.</p>';
-        } else {
-            echo '<ul>';
-            foreach ($comments as $comment) {
-                echo '<li>';
-                echo '  <div class="smiley">☻</div>';
-                echo '  <div class="detailComment">';
-                echo '      <h3 class="info">Le ' . Utils::convertDateToFrenchFormat($comment->getDateCreation()) . ", " . Utils::format($comment->getPseudo()) . ' a écrit :</h3>';
-                echo '      <p class="content">' . Utils::format($comment->getContent()) . '</p>';
-                echo '  </div>';
-                echo '</li>';
-            }               
-            echo '</ul>';
-        } 
-    ?>
+
+    <?php if (empty($comments)) { ?>
+        <p class="info">Aucun commentaire pour cet article.</p>
+    <?php } else { ?>
+        <ul>
+            <?php foreach ($comments as $comment) { ?>
+                <li>
+                    <div class="smiley">☻</div>
+                    <div class="detailComment">
+                        <h3 class="info">Le <?= Utils::convertDateToFrenchFormat($comment->getDateCreation()) ?>, <?= Utils::format($comment->getPseudo()) ?> a écrit :</h3>
+                        <p class="content"><?= Utils::format($comment->getContent()) ?></p>
+                        <?php if ($isConnected) { ?>
+                            <div class="commentButton"><a class="submit" href="index.php?action=deleteComment&article=<?= $article->getId() ?>&comment=<?= $comment->getId() ?>" <?= Utils::askConfirmation("Êtes-vous sûr de vouloir supprimer ce commentaire ?") ?>>Supprimer</a></div>
+                        <?php } ?>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+    <?php } ?>
 
     <form action="index.php" method="post" class="foldedCorner">
         <h2>Commenter</h2>

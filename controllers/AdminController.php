@@ -36,10 +36,10 @@ class AdminController {
         $columnTitles = str_replace($columns, ['Titre', 'Vues', 'Commentaires', 'Date de création'], $columns);
 
         //Définir l'ordre de tri pour la requête SQL, descendante par défaut
-        $sortOrderQuery = isset($_GET['order']) && strtolower($_GET['order']) == 'asc' ? 'ASC' : 'DESC';
+        $sortOrderQuery = strtoupper(Utils::request('order', 'desc', ['asc', 'desc']));
 
         //Définir la colonne de tri pour la requête SQL (date de création par défaut)
-        $sortColumn = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : 'date_creation';
+        $sortColumn = Utils::request('column', 'date_creation', $columns);
 
         //Changer l'ordre de tri par click
         $sortOrderUrl = $sortOrderQuery == 'ASC' ? 'desc' : 'asc';
@@ -63,7 +63,7 @@ class AdminController {
 
     /**
      * Vérifie que l'utilisateur est connecté.
-     * @return void
+     * @return boolean
      */
     private function checkIfUserIsConnected() : void
     {
@@ -191,7 +191,7 @@ class AdminController {
         $articleManager->addOrUpdateArticle($article);
 
         // On redirige vers la page d'administration.
-        Utils::redirect("admin");
+        Utils::redirect("editionPage");
     }
 
 
@@ -210,6 +210,27 @@ class AdminController {
         $articleManager->deleteArticle($id);
        
         // On redirige vers la page d'administration.
-        Utils::redirect("admin");
+        Utils::redirect("editionPage");
+    }
+
+    /**
+     * Suppression d'un commentaire.
+     * @return void
+     */
+    public function deleteComment() : void
+    {
+        $this->checkIfUserIsConnected();
+
+        $articleId = Utils::request("article", -1);
+        $id = Utils::request("comment", -1);
+
+        // On supprime le commentaire.
+        $commentManager = new CommentManager();
+        $commentManager->deleteComment($id);
+       
+        // On redirige vers la page de l'article.
+        Utils::redirect("showArticle", [
+            'id' => $articleId
+        ]);
     }
 }
